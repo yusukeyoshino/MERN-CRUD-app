@@ -1,5 +1,12 @@
 import axios from "axios";
-import { FETCH_USER, FETCH_MOVIES, FETCH_DIARIES } from "./types";
+import {
+  FETCH_USER,
+  FETCH_MOVIES,
+  FETCH_DIARIES,
+  FORM_REVIEW,
+  SET_SPINNER,
+  SET_MODAL,
+} from "./types";
 
 export const fetchUser = () => async (dispatch) => {
   const res = await axios.get("/api/current_user");
@@ -20,4 +27,17 @@ export const fetchMovies = (term) => async (dispatch) => {
 export const fetchDiaries = () => async (dispatch) => {
   const res = await axios.get("/api/diary");
   dispatch({ type: FETCH_DIARIES, payload: res.data });
+};
+
+export const formReview = (formData) => {
+  return { type: FORM_REVIEW, payload: formData };
+};
+
+export const setSpinner = (isSpining) => {
+  console.log("a");
+  return { type: SET_SPINNER, payload: isSpining };
+};
+
+export const setModal = (modalMessage) => {
+  return { type: SET_MODAL, payload: modalMessage };
 };

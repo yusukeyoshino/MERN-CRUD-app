@@ -47,15 +47,15 @@ export default function Header() {
       default:
         return (
           <>
-            <Link color="textSecondary" component={RouterLink} to="/diary">
-              <Button
-                variant="outlined"
-                color="secondary"
-                startIcon={<CreateIcon />}
-              >
-                Diary
-              </Button>
-            </Link>
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={<CreateIcon />}
+              component={RouterLink}
+              to="/diary"
+            >
+              Diary
+            </Button>
 
             <Button href="/api/logout" variant="outlined">
               Logout
@@ -70,7 +70,12 @@ export default function Header() {
       <AppBar position="static">
         <Toolbar>
           <Grid container justify="space-between">
-            <Link component={RouterLink} color="textSecondary" to="/">
+            <Link
+              style={{ textDecoration: "none" }}
+              component={RouterLink}
+              color="textSecondary"
+              to="/"
+            >
               <Button>Movie-diary</Button>
             </Link>
             <Grid item>{renderContent()}</Grid>
