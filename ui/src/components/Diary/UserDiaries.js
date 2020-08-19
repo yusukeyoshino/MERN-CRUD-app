@@ -130,7 +130,7 @@ const UserDiaries = (props) => {
 
   return (
     <>
-      <Grid container justify="space-around">
+      <Grid container justify="space-evenly">
         {renderCards()}
       </Grid>
     </>

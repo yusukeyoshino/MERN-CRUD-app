@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setModal } from "../actions";
+import { setModal, fetchMovies } from "../actions";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, Grid } from "@material-ui/core/";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -16,6 +16,8 @@ import DiaryForm from "./DiaryForm/DiaryDraft";
 import { Link as RouterLink } from "react-router-dom";
 import userDiaryReducer from "../reducers/userDiaryReducer";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 const useStyles = makeStyles({
   root: {
@@ -36,7 +38,9 @@ const userSelector = (state) => state.auth;
 
 function Cards(props) {
   const classes = useStyles();
-  const movies = useSelector(movieSelector);
+  const { results, page, total_pages, term, total_results } = useSelector(
+    movieSelector
+  );
   const diaries = useSelector(diarySelector);
   const auth = useSelector(userSelector);
   const userDiaries = diaries.filter((diary) => diary._user === auth._id);
@@ -64,8 +68,14 @@ function Cards(props) {
     }
   };
 
+  const onClicKPageForwardHandler = (isNext) => {
+    window.scrollTo({ top: 0 });
+    console.log("clicked");
+    dispatch(fetchMovies(term, isNext ? page + 1 : page - 1));
+  };
+
   const renderCards = () => {
-    return movies.map((movie) => {
+    return results.map((movie) => {
       const isWatched = userDiaries.find((diary) => diary.movieID === movie.id);
 
       return (
@@ -123,15 +133,49 @@ function Cards(props) {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-around",
-        flexWrap: "wrap",
-      }}
-    >
-      {renderCards()}
-    </div>
+    <>
+      {results ? (
+        <Typography
+          style={{ marginLeft: "20px" }}
+        >{`${total_results} movies found.`}</Typography>
+      ) : (
+        <></>
+      )}
+      <Grid xs={12} container justify="space-around">
+        {results ? renderCards() : <></>}
+      </Grid>
+      {results ? (
+        <Grid xs={12} container justify="space-evenly" alignItems="center">
+          <Button
+            onClick={() => onClicKPageForwardHandler(false)}
+            startIcon={<ArrowBackIosIcon />}
+            variant="outlined"
+            style={
+              page == 1
+                ? { opacity: 0, cursor: "default" }
+                : { display: "active" }
+            }
+          >
+            Back
+          </Button>
+          {`Pages: ${page} / ${total_pages}`}
+          <Button
+            onClick={() => onClicKPageForwardHandler(true)}
+            startIcon={<ArrowForwardIosIcon />}
+            variant="outlined"
+            style={
+              page == total_pages
+                ? { opacity: 0, cursor: "default" }
+                : { display: "active" }
+            }
+          >
+            Next
+          </Button>
+        </Grid>
+      ) : (
+        <></>
+      )}
+    </>
   );
 }
 

@@ -16,12 +16,16 @@ export const fetchUser = () => async (dispatch) => {
   });
 };
 
-export const fetchMovies = (term) => async (dispatch) => {
+export const fetchMovies = (term, pageNumber) => async (dispatch) => {
   const res = await axios.get(
-    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_IMDB_KEY}&language=en-US&query=${term}&include_adult=false`
+    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_IMDB_KEY}&language=en-US&query=${term}&include_adult=false&page=${pageNumber}`
   );
   console.log(res);
-  dispatch({ type: FETCH_MOVIES, payload: res.data.results });
+  const { results, total_pages, page, total_results } = res.data;
+  dispatch({
+    type: FETCH_MOVIES,
+    payload: { results, total_pages, page, term, total_results },
+  });
 };
 
 export const fetchDiaries = () => async (dispatch) => {

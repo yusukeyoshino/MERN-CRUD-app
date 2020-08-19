@@ -8,10 +8,12 @@ const SearchBar = () => {
   const dispatch = useDispatch();
 
   const searchMovies = (e) => {
+    window.scrollTo({ top: 0 });
     e.preventDefault();
+
     dispatch(actions.setSpinner(true));
     const term = e.target.input.value;
-    dispatch(actions.fetchMovies(term));
+    dispatch(actions.fetchMovies(term, 1));
 
     dispatch(actions.setSpinner(false));
   };

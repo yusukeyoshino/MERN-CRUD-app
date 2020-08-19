@@ -4,7 +4,7 @@ import Cards from "./Cards";
 
 const MovieLists = () => {
   return (
-    <div>
+    <div style={{ paddingBottom: "50px" }}>
       <SearchBar />
       <Cards />
     </div>

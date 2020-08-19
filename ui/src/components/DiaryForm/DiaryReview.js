@@ -10,7 +10,7 @@ import {
   Divider,
   makeStyles,
 } from "@material-ui/core";
-import { setSpinner } from "../../actions";
+
 import EditIcon from "@material-ui/icons/Edit";
 import PublishIcon from "@material-ui/icons/Publish";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
