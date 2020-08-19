@@ -4,6 +4,8 @@ import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import reduxThunk from "redux-thunk";
 import reducers from "./reducers";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { theme } from "./theme";
 
 import "normalize.css";
 import App from "./App";
@@ -13,7 +15,9 @@ const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </Provider>,
   document.getElementById("root")
 );

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import DiaryDraft from "./DiaryDraft";
 import DiaryReview from "./DiaryReview";
 import { makeStyles } from "@material-ui/core/styles";
@@ -22,11 +23,14 @@ const useStyles = makeStyles({
   },
 });
 
+const authSelector = (state) => state.auth;
+
 const DiaryForm = (props) => {
   const classes = useStyles();
   const [movieData, setMovieData] = useState();
   const [movieCredit, setMovieCredit] = useState();
   const movieID = parseInt(props.match.params.id);
+  const auth = useSelector(authSelector);
 
   useEffect(() => {
     const getMovie = async () => {
@@ -67,11 +71,20 @@ const DiaryForm = (props) => {
 
   return (
     <>
-      {movieData ? (
+      {movieData && auth ? (
         <Grid container justify="space-around" style={{ marginTop: "20px" }}>
-          <Grid xs={5}>{renderMovieInfo()}</Grid>
+          <Grid
+            xs={11}
+            md={5}
+            item
+            container
+            justify="center"
+            style={{ marginBottom: "20px" }}
+          >
+            {renderMovieInfo()}
+          </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={11} md={6} style={{ marginBottom: "30px" }}>
             <DiaryDraft
               movieData={{
                 title: movieData.title,

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setSpinner, setModal } from "../../../actions";
+import { setSpinner, setModal, fetchDiaries } from "../../actions";
 import {
   Grid,
   Typography,
@@ -21,7 +21,7 @@ import axios from "axios";
 import { withRouter, Link as RouterLink } from "react-router-dom";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
-import Modal from "../../../util/Modal";
+import Modal from "../../util/Modal";
 
 const diarySelector = (state) => state.diaries;
 const useStyles = makeStyles(() => ({
@@ -34,24 +34,17 @@ const useStyles = makeStyles(() => ({
 }));
 
 const DiaryContent = (props) => {
+  const dispatch = useDispatch();
+
   const diaries = useSelector(diarySelector);
   const movieID = props.match.params.id;
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const [isModalOpened, setIsModalOpened] = useState(false);
 
-  const {
-    _id,
-    poster_path,
-    title,
-    rating,
-    description,
-    watchedDate,
-  } = diaries.find((diary) => {
-    return diary.movieID == movieID;
-  });
+  useEffect(() => {
+    dispatch(fetchDiaries);
+  }, []);
 
-  const deleteHandler = async () => {
+  const deleteHandler = async (_id) => {
     dispatch(setModal({ open: false }));
     dispatch(setSpinner(true));
     const res = await axios.delete("/api/diary", { data: { _id } });
@@ -59,14 +52,18 @@ const DiaryContent = (props) => {
     props.history.push("/diary");
   };
 
-  const onClickDeleteHandler = () => {
+  const onClickDeleteHandler = (_id) => {
     dispatch(
       setModal({
         open: true,
         title: "Are you sure to delete the diary?",
         noMessage: "Disagree",
         yesButton: (
-          <Button variant="outlined" color="secondary" onClick={deleteHandler}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => deleteHandler(_id)}
+          >
             Agree
           </Button>
         ),
@@ -75,18 +72,40 @@ const DiaryContent = (props) => {
   };
 
   const renderContent = () => {
+    const {
+      _id,
+      poster_path,
+      title,
+      rating,
+      description,
+      watchedDate,
+    } = diaries.find((diary) => {
+      return diary.movieID == movieID;
+    });
     return (
       <Grid container justify="space-around" style={{ marginTop: "10px" }}>
-        <Grid item xs={12} sm={5} container justify="center">
+        <Grid
+          style={{ marginTop: "65px" }}
+          item
+          xs={12}
+          md={5}
+          container
+          justify="center"
+          alignItems="flex-start"
+        >
           <img
             src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
             alt="poster"
           />
         </Grid>
-        <Grid item xs sm={6}>
+        <Grid item xs={11} md={5}>
           <Typography
             variant="h4"
-            style={{ marginBottom: "15px", textAlign: "center" }}
+            style={{
+              marginBottom: "15px",
+              marginTop: "10px",
+              textAlign: "center",
+            }}
           >
             {title}
           </Typography>
@@ -135,7 +154,7 @@ const DiaryContent = (props) => {
                   </Button>
                 </Link>
                 <Button
-                  onClick={onClickDeleteHandler}
+                  onClick={() => onClickDeleteHandler(_id)}
                   startIcon={<DeleteIcon />}
                   size="small"
                   color="primary"
@@ -148,7 +167,7 @@ const DiaryContent = (props) => {
           </Card>
           <Button
             onClick={() => props.history.push("/diary")}
-            style={{ marginTop: "20px" }}
+            style={{ margin: "20px 0" }}
             variant="outlined"
             startIcon={<KeyboardBackspaceIcon />}
           >
@@ -159,7 +178,16 @@ const DiaryContent = (props) => {
     );
   };
 
-  return <>{diaries ? renderContent() : <div></div>}</>;
+  return (
+    <>
+      {diaries.length !== 0 &&
+      diaries.find((diary) => movieID === diary.movieID) ? (
+        renderContent()
+      ) : (
+        <></>
+      )}
+    </>
+  );
 };
 
 export default withRouter(DiaryContent);

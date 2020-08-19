@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import * as actions from "../../actions";
-import classes from "./SearchBar.module.css";
-import { Button, Input } from "@material-ui/core";
+
+import { Button, TextField } from "@material-ui/core";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
 
   const searchMovies = (e) => {
-    window.scrollTo({ top: 0 });
     e.preventDefault();
 
     dispatch(actions.setSpinner(true));
-    const term = e.target.input.value;
+    const term = e.target.search_term.value;
+
     dispatch(actions.fetchMovies(term, 1));
 
     dispatch(actions.setSpinner(false));
@@ -20,8 +20,22 @@ const SearchBar = () => {
 
   return (
     <>
-      <form onSubmit={searchMovies} className={classes.form}>
-        <input className={classes.input} name="input" type="text" />
+      <form
+        onSubmit={searchMovies}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <TextField
+          margin="normal"
+          name="search_term"
+          variant="outlined"
+          required
+          label="Movie Title"
+          size="small"
+        />
 
         <input style={{ display: "none" }} id="search-movie" type="submit" />
         <label htmlFor="search-movie">

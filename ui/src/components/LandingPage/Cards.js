@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setModal, fetchMovies } from "../actions";
+import { setModal, fetchMovies } from "../../actions";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, Grid } from "@material-ui/core/";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -10,11 +10,11 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import movieSearchReducer from "../reducers/movieSearchReducer";
+import movieSearchReducer from "../../reducers/movieSearchReducer";
 import CreateIcon from "@material-ui/icons/Create";
-import DiaryForm from "./DiaryForm/DiaryDraft";
+import DiaryForm from "../DiaryForm/DiaryDraft";
 import { Link as RouterLink } from "react-router-dom";
-import userDiaryReducer from "../reducers/userDiaryReducer";
+import userDiaryReducer from "../../reducers/userDiaryReducer";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
@@ -51,8 +51,8 @@ function Cards(props) {
       dispatch(
         setModal({
           open: true,
-          title: "Write first diary? Log in by GOOGLE!",
-          noMessage: "NOT NOW",
+          title: "Write first diary? Log in by Google!",
+          noMessage: "Not Now",
 
           yesButton: (
             <Button href="/auth/google" color="primary" variant="outlined">
@@ -136,15 +136,15 @@ function Cards(props) {
     <>
       {results ? (
         <Typography
-          style={{ marginLeft: "20px" }}
-        >{`${total_results} movies found.`}</Typography>
+          style={{ marginLeft: "20px", marginTop: "20px" }}
+        >{`${total_results} movies are found.`}</Typography>
       ) : (
         <></>
       )}
       <Grid xs={12} container justify="space-around">
         {results ? renderCards() : <></>}
       </Grid>
-      {results ? (
+      {total_results != 0 ? (
         <Grid xs={12} container justify="space-evenly" alignItems="center">
           <Button
             onClick={() => onClicKPageForwardHandler(false)}

@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Route, BrowserRouter } from "react-router-dom";
 
 import * as actions from "./actions";
+import { theme } from "./theme";
 import Header from "./components/Header";
-import MovieLists from "./components/MovieLists";
+import MovieLists from "./components/LandingPage/MovieLists";
 import DiaryForm from "./components/DiaryForm/DiaryForm";
 import UserDiaries from "./components/Diary/UserDiaries";
-import DiaryContent from "./components/Diary/DiaryContent/DiaryContent";
+import DiaryContent from "./components/Diary/DiaryContent";
 import Spinner from "./util/Spinner";
 import Modal from "./util/Modal";
 
