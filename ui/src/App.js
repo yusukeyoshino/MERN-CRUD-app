@@ -18,7 +18,7 @@ const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actions.fetchUser());
-    // dispatch(actions.fetchDiaries());
+    dispatch(actions.fetchDiaries());
   }, []);
 
   const isSpining = useSelector(spinnerSelector);
