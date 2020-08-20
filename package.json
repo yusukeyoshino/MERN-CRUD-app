@@ -3,12 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "14.0.0",
+    "npm": "6.14.4"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "client": "npm run start --prefix ui",
     "server": "nodemon index.js --ignore ui",
-    "dev": "concurrently \" npm run server \" \"npm run client\""
+    "dev": "concurrently \" npm run server \" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix ui && npm run build --prefix ui"
   },
   "author": "",
   "license": "ISC",
