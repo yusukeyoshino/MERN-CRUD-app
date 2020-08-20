@@ -1,29 +1,29 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import * as actions from "../../actions";
 import { withRouter } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
+import axios from "axios";
+
 import DiaryReview from "./DiaryReview";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
-import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import { Rating } from "@material-ui/lab";
 import {
   Grid,
   TextField,
   MenuItem,
-  Input,
   Button,
   Select,
   InputLabel,
   FormControl,
   Typography,
 } from "@material-ui/core";
-import axios from "axios";
-import * as actions from "../../actions";
-import { useForm, Controller } from "react-hook-form";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 
 const diarySelector = (state) => state.diaries;
 
 const DiaryDraft = (props) => {
-  const [show, setShow] = useState(false);
+  const [showReview, setShowReview] = useState(false);
   const { register, handleSubmit, watch, errors, control } = useForm({
     shouldUnregister: false,
   });
@@ -34,13 +34,12 @@ const DiaryDraft = (props) => {
   );
   const dispatch = useDispatch();
 
-  const onReviewForm = (data) => {
-    console.log(data);
+  const onShowReviewForm = (data) => {
     dispatch(actions.formReview(data));
-    setShow(true);
+    setShowReview(true);
   };
 
-  const submitDiary = async (formData) => {
+  const onSubmitDiary = async (formData) => {
     dispatch(actions.setSpinner(true));
     const { poster_path, title } = props.movieData;
     let requestBody;
@@ -66,7 +65,7 @@ const DiaryDraft = (props) => {
     props.history.push("/");
   };
 
-  const renderForm = () => {
+  const renderFormDraft = () => {
     const renderRatingOptions = () => {
       const ratingOptions = [];
       for (let i = 1; i < 5.5; i = i + 0.5) {
@@ -84,7 +83,7 @@ const DiaryDraft = (props) => {
         <Typography variant="h4" style={{ textAlign: "center" }}>
           {props.movieData.title}
         </Typography>
-        <form onSubmit={handleSubmit(onReviewForm)}>
+        <form onSubmit={handleSubmit(onShowReviewForm)}>
           <TextField
             name="description"
             defaultValue={diaryContent ? diaryContent.description : ""}
@@ -99,16 +98,6 @@ const DiaryDraft = (props) => {
             helperText={errors.description ? "required" : ""}
           />
 
-          {/* <TextField
-          name="a"
-          select
-          inputRef={register}
-          variant="outlined"
-          margin="dense"
-          label="Rating"
-          defaultValue={3}
-          fullWidth
-        > */}
           <Grid container alignItems="center">
             <FormControl margin="normal">
               <InputLabel>Rating</InputLabel>
@@ -132,7 +121,6 @@ const DiaryDraft = (props) => {
             />
           </Grid>
 
-          {/* </TextField> */}
           <Grid>
             <TextField
               name="watchedDate"
@@ -146,7 +134,6 @@ const DiaryDraft = (props) => {
               defaultValue={
                 diaryContent ? diaryContent.watchedDate.slice(0, 10) : ""
               }
-              margin="normal"
               fullWidth
               variant="outlined"
               error={errors.watchedDate ? true : false}
@@ -175,13 +162,13 @@ const DiaryDraft = (props) => {
 
   return (
     <>
-      {show ? (
+      {showReview ? (
         <DiaryReview
-          submitDiary={submitDiary}
-          onBackToEdit={() => setShow(false)}
+          onSubmitDiary={onSubmitDiary}
+          onBackToEdit={() => setShowReview(false)}
         />
       ) : (
-        renderForm()
+        renderFormDraft()
       )}
     </>
   );

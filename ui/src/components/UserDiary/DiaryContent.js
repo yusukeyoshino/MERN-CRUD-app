@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { withRouter, Link as RouterLink } from "react-router-dom";
 import { setSpinner, setModal, fetchDiaries } from "../../actions";
+import axios from "axios";
 import {
   Grid,
   Typography,
@@ -10,18 +12,13 @@ import {
   Divider,
   CardActions,
   makeStyles,
+  Button,
 } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Button from "@material-ui/core/Button";
-import StarIcon from "@material-ui/icons/Star";
-import StarHalfIcon from "@material-ui/icons/StarHalf";
-import CreateIcon from "@material-ui/icons/Create";
-import axios from "axios";
-import { withRouter, Link as RouterLink } from "react-router-dom";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+import DeleteIcon from "@material-ui/icons/Delete";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
-import Modal from "../../util/Modal";
+import CreateIcon from "@material-ui/icons/Create";
 
 const diarySelector = (state) => state.diaries;
 const useStyles = makeStyles(() => ({
@@ -35,19 +32,19 @@ const useStyles = makeStyles(() => ({
 
 const DiaryContent = (props) => {
   const dispatch = useDispatch();
-
   const diaries = useSelector(diarySelector);
-  const movieID = props.match.params.id;
+  const movieID = parseInt(props.match.params.id);
   const classes = useStyles();
 
   useEffect(() => {
     dispatch(fetchDiaries);
+    // eslint-disable-next-line
   }, []);
 
   const deleteHandler = async (_id) => {
     dispatch(setModal({ open: false }));
     dispatch(setSpinner(true));
-    const res = await axios.delete("/api/diary", { data: { _id } });
+    await axios.delete("/api/diary", { data: { _id } });
     dispatch(setSpinner(false));
     props.history.push("/diary");
   };
@@ -80,7 +77,7 @@ const DiaryContent = (props) => {
       description,
       watchedDate,
     } = diaries.find((diary) => {
-      return diary.movieID == movieID;
+      return diary.movieID === movieID;
     });
     return (
       <Grid container justify="space-around" style={{ marginTop: "10px" }}>

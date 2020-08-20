@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import { Card, Grid } from "@material-ui/core";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import { Rating } from "@material-ui/lab";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import CreateIcon from "@material-ui/icons/Create";
-import { Link as RouterLink, withRouter } from "react-router-dom";
 import * as actions from "../../actions";
+import { Link as RouterLink, withRouter } from "react-router-dom";
+import axios from "axios";
+
+import {
+  Card,
+  Grid,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+  makeStyles,
+} from "@material-ui/core";
+import { Rating } from "@material-ui/lab";
+import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import TodayIcon from "@material-ui/icons/Today";
-import Modal from "../../util/Modal";
-import axios from "axios";
 
 const useStyles = makeStyles({
   root: {
@@ -34,23 +36,18 @@ const UserDiaries = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const diaries = useSelector(diarySelector);
-  const [isModalOpened, setIsModalOpened] = useState({ open: false, id: "" });
   const [isDiaryDeleted, setIsDiaryDeleted] = useState(false);
 
   useEffect(() => {
     dispatch(actions.fetchDiaries());
+    // eslint-disable-next-line
   }, [isDiaryDeleted]);
-
-  const toDiaryContent = (movieID) => {
-    const ID = movieID.toString();
-    props.history.push(`/diary/${ID}`);
-  };
 
   const deleteHandler = async (_id) => {
     dispatch(actions.setModal({ open: false }));
     dispatch(actions.setSpinner(true));
 
-    const res = await axios.delete("/api/diary", { data: { _id } });
+    await axios.delete("/api/diary", { data: { _id } });
 
     setIsDiaryDeleted(!isDiaryDeleted);
     dispatch(actions.setSpinner(false));
@@ -78,11 +75,7 @@ const UserDiaries = (props) => {
   const renderCards = () => {
     return diaries.map((diary) => {
       return (
-        <Card
-          // onClick={() => toDiaryContent(diary.movieID)}
-          key={diary._id}
-          className={classes.root}
-        >
+        <Card key={diary._id} className={classes.root}>
           <CardMedia
             className={classes.media}
             image={`https://image.tmdb.org/t/p/w300/${diary.poster_path}`}

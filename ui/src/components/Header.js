@@ -3,14 +3,19 @@ import { useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Link, Grid, Hidden, IconButton } from "@material-ui/core";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import {
+  AppBar,
+  Link,
+  Grid,
+  Hidden,
+  IconButton,
+  Button,
+  Toolbar,
+} from "@material-ui/core";
+
 import CreateIcon from "@material-ui/icons/Create";
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-// import MenuIcon from "@material-ui/icons/Menu";
 
 const authSelector = (state) => state.auth;
 
@@ -20,9 +25,6 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
   },
 }));
 
@@ -55,7 +57,7 @@ export default function Header() {
                 startIcon={<CreateIcon />}
                 component={RouterLink}
                 to="/diary"
-                style={{ marginRight: "20px" }}
+                className={classes.menuButton}
               >
                 Diary
               </Button>

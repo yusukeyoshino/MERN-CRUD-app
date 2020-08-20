@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import DiaryDraft from "./DiaryDraft";
-import DiaryReview from "./DiaryReview";
-import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
+
+import DiaryDraft from "./DiaryDraft";
 
 import {
   Card,
@@ -13,6 +12,7 @@ import {
   Typography,
   Grid,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   root: {
@@ -28,7 +28,7 @@ const authSelector = (state) => state.auth;
 const DiaryForm = (props) => {
   const classes = useStyles();
   const [movieData, setMovieData] = useState();
-  const [movieCredit, setMovieCredit] = useState();
+
   const movieID = parseInt(props.match.params.id);
   const auth = useSelector(authSelector);
 
@@ -38,13 +38,9 @@ const DiaryForm = (props) => {
         `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.REACT_APP_IMDB_KEY}`
       );
     };
-    const getCredits = async () => {
-      return await axios.get(
-        `https://api.themoviedb.org/3/movie/${movieID}/credits?api_key=${process.env.REACT_APP_IMDB_KEY}`
-      );
-    };
+
     getMovie().then((res) => setMovieData(res.data));
-    getCredits().then((res) => setMovieCredit(res.data));
+    // eslint-disable-next-line
   }, []);
 
   const renderMovieInfo = () => {

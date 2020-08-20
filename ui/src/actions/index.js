@@ -20,7 +20,7 @@ export const fetchMovies = (term, pageNumber) => async (dispatch) => {
   const res = await axios.get(
     `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_IMDB_KEY}&language=en-US&query=${term}&include_adult=false&page=${pageNumber}`
   );
-  console.log(res);
+
   const { results, total_pages, page, total_results } = res.data;
   dispatch({
     type: FETCH_MOVIES,
@@ -38,7 +38,6 @@ export const formReview = (formData) => {
 };
 
 export const setSpinner = (isSpining) => {
-  console.log("a");
   return { type: SET_SPINNER, payload: isSpining };
 };
 

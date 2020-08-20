@@ -1,20 +1,20 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link as RouterLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setModal, fetchMovies } from "../../actions";
 import { makeStyles } from "@material-ui/core/styles";
-import { Card, Grid } from "@material-ui/core/";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import movieSearchReducer from "../../reducers/movieSearchReducer";
+import {
+  Card,
+  Grid,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+  CardActions,
+} from "@material-ui/core/";
+
 import CreateIcon from "@material-ui/icons/Create";
-import DiaryForm from "../DiaryForm/DiaryDraft";
-import { Link as RouterLink } from "react-router-dom";
-import userDiaryReducer from "../../reducers/userDiaryReducer";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
@@ -70,7 +70,7 @@ function Cards(props) {
 
   const onClicKPageForwardHandler = (isNext) => {
     window.scrollTo({ top: 0 });
-    console.log("clicked");
+
     dispatch(fetchMovies(term, isNext ? page + 1 : page - 1));
   };
 
@@ -98,10 +98,8 @@ function Cards(props) {
               <Typography gutterBottom variant="h5" component="h2">
                 <Grid container alignItems="center">
                   {movie.original_title}
-                  {isWatched ? (
+                  {isWatched && (
                     <VisibilityIcon style={{ marginLeft: "5px" }} />
-                  ) : (
-                    <></>
                   )}
                 </Grid>
               </Typography>
@@ -134,24 +132,22 @@ function Cards(props) {
 
   return (
     <>
-      {results ? (
+      {results && (
         <Typography
           style={{ marginLeft: "20px", marginTop: "20px" }}
         >{`${total_results} movies are found.`}</Typography>
-      ) : (
-        <></>
       )}
-      <Grid xs={12} container justify="space-around">
-        {results ? renderCards() : <></>}
+      <Grid xs={12} item container justify="space-around">
+        {results && renderCards()}
       </Grid>
-      {total_results != 0 ? (
-        <Grid xs={12} container justify="space-evenly" alignItems="center">
+      {total_results !== 0 && (
+        <Grid xs={12} item container justify="space-evenly" alignItems="center">
           <Button
             onClick={() => onClicKPageForwardHandler(false)}
             startIcon={<ArrowBackIosIcon />}
             variant="outlined"
             style={
-              page == 1
+              page === 1
                 ? { opacity: 0, cursor: "default" }
                 : { display: "active" }
             }
@@ -164,7 +160,7 @@ function Cards(props) {
             startIcon={<ArrowForwardIosIcon />}
             variant="outlined"
             style={
-              page == total_pages
+              page === total_pages
                 ? { opacity: 0, cursor: "default" }
                 : { display: "active" }
             }
@@ -172,8 +168,6 @@ function Cards(props) {
             Next
           </Button>
         </Grid>
-      ) : (
-        <></>
       )}
     </>
   );

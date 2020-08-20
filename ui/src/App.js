@@ -3,12 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Route, BrowserRouter } from "react-router-dom";
 
 import * as actions from "./actions";
-import { theme } from "./theme";
 import Header from "./components/Header";
 import MovieLists from "./components/LandingPage/MovieLists";
 import DiaryForm from "./components/DiaryForm/DiaryForm";
-import UserDiaries from "./components/Diary/UserDiaries";
-import DiaryContent from "./components/Diary/DiaryContent";
+import UserDiaries from "./components/UserDiary/UserDiaries";
+import DiaryContent from "./components/UserDiary/DiaryContent";
 import Spinner from "./util/Spinner";
 import Modal from "./util/Modal";
 
@@ -20,7 +19,8 @@ const App = () => {
   useEffect(() => {
     dispatch(actions.fetchUser());
     dispatch(actions.fetchDiaries());
-  });
+  }, [dispatch]);
+
   const isSpining = useSelector(spinnerSelector);
   const { open, title, noMessage, yesButton } = useSelector(modalSelector);
 

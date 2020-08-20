@@ -29,7 +29,6 @@ const useStyles = makeStyles(() => ({
 const DiaryReview = (props) => {
   const form = useSelector(formSelector);
   const classes = useStyles();
-  console.log(form);
 
   const renderReview = () => {
     return (
@@ -77,7 +76,7 @@ const DiaryReview = (props) => {
               color="primary"
               variant="outlined"
               startIcon={<PublishIcon />}
-              onClick={() => props.submitDiary(form)}
+              onClick={() => props.onSubmitDiary(form)}
             >
               Submit
             </Button>
