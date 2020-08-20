@@ -44,7 +44,7 @@ export default function Header() {
             color="secondary"
             variant="contained"
           >
-            Log in with Google
+            Log in by Google
           </Button>
         );
       default:
