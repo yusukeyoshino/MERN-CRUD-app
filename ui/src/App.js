@@ -18,8 +18,8 @@ const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actions.fetchUser());
-    dispatch(actions.fetchDiaries());
-  }, [dispatch]);
+    // dispatch(actions.fetchDiaries());
+  }, []);
 
   const isSpining = useSelector(spinnerSelector);
   const { open, title, noMessage, yesButton } = useSelector(modalSelector);
