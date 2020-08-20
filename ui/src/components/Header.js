@@ -44,7 +44,7 @@ export default function Header() {
             color="secondary"
             variant="contained"
           >
-            Log in by Google
+            Log in <Hidden xsDown>by Google</Hidden>
           </Button>
         );
       default:
