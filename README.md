@@ -11,7 +11,7 @@ Authorization is implemented by Google OAuth.
  
 The user type movie title in input and click search button.<br>
 Loading the movie data from (TMDb) API and render them on the screen.<br>
-A User can sign up with Google account then leav review of the movie.
+A User can sign up with Google account then leave review of the movie.
 
  
 # Dependencies
