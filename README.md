@@ -8,7 +8,7 @@ Authorization is implemented by Google OAuth.
 
 # How to Use
  
-Once you log in by Google account, you can write the review of the movie and save it in MongoDB.
+Once you log in by Google account, you can leave the review of the movie and save it in MongoDB.
 All written review of the movies are stored in the database so that you can overwrite and delete whenever you visit this application.
 
  
