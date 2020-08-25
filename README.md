@@ -6,6 +6,11 @@ Authorization is implemented by Google OAuth.
 
 [https://pacific-escarpment-31443.herokuapp.com/](https://pacific-escarpment-31443.herokuapp.com/)
 
+# How to Use
+ 
+Once you log in by Google account, you can write the review of the movie and save it in MongoDB.
+All written review of the movies are stored in the database so that you can overwrite and delete whenever you visit this application.
+
  
 # Features
  
